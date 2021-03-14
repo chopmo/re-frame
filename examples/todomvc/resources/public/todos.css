@@ -210,6 +210,18 @@ label[for='toggle-all'] {
 	text-decoration: line-through;
 }
 
+#todo-list li .priority {
+	padding: 15px 60px 15px 15px;
+	margin-left: 405px;
+	display: block;
+	line-height: 1.2;
+	transition: color 0.4s;
+        color: black;
+        position: absolute;
+	cursor: pointer;
+}
+
+
 #todo-list li .destroy {
 	display: none;
 	position: absolute;
@@ -374,4 +386,3 @@ html #clear-completed:active {
 		bottom: 10px;
 	}
 }
-
