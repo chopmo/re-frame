@@ -179,7 +179,7 @@
   ;; So, again, a path interceptor acts like clojure's `update-in`
   (fn [todos [_ text]]
     (let [id (allocate-next-id todos)]
-      (assoc todos id {:id id :title text :done false}))))
+      (assoc todos id {:id id :title text :done false :priority :medium}))))
 
 
 (reg-event-db
@@ -188,6 +188,17 @@
   (fn [todos [_ id]]
     (update-in todos [id :done] not)))
 
+(defn- cycle-priority [p]
+  (case p
+    :low    :medium
+    :medium :high
+    :high   :low))
+
+(reg-event-db
+ :cycle-priority
+ todo-interceptors
+ (fn [todos [_ id]]
+   (update-in todos [id :priority] cycle-priority)))
 
 (reg-event-db
   :save

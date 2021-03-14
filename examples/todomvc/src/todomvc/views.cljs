@@ -27,7 +27,7 @@
 (defn todo-item
   []
   (let [editing (reagent/atom false)]
-    (fn [{:keys [id done title]}]
+    (fn [{:keys [id done title priority]}]
       [:li {:class (str (when done "completed ")
                         (when @editing "editing"))}
         [:div.view
@@ -35,11 +35,14 @@
             {:type "checkbox"
              :checked done
              :on-change #(dispatch [:toggle-done id])}]
-          [:label
-            {:on-double-click #(reset! editing true)}
-            title]
-          [:button.destroy
-            {:on-click #(dispatch [:delete-todo id])}]]
+         [:span.priority
+          {:on-click #(dispatch [:cycle-priority id])}
+          (case priority :low "L" :medium "M" :high "H")]
+         [:label
+          {:on-double-click #(reset! editing true)}
+          title]
+         [:button.destroy
+          {:on-click #(dispatch [:delete-todo id])}]]
         (when @editing
           [todo-input
             {:class "edit"
